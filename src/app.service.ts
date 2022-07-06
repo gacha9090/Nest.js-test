@@ -6,9 +6,3 @@ export class AppService {
     return 'nest.js test';
   }
 }
-
-export class TestService {
-  getTestFunction() : string {
-    return 'nest.js API CALL TEST'
-  }
-}
