@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpCode, HttpException, HttpStatus, Injectable, NotFoundException, Response } from '@nestjs/common';
 import { response } from 'express';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -21,7 +21,15 @@ export class UsersService {
   findOne(id: number): User {
     const user = this.users.find((user) => user.id === Number(id));
     if (!user) {
-      throw new NotFoundException(`user id ${id} not found`);
+      let exception_msg: string = `user id ${id} is not found`
+      let exception_code: number = 400
+      let rtn_obj: object = {
+        "error_msg": exception_msg,
+        "error_code": exception_code
+      }
+
+      // Nest.js에서는 response return예외는 return 형식이 아닌 throw 형식으로 던져야 함
+      throw new HttpException(rtn_obj, HttpStatus.BAD_REQUEST)
     }
     else{
       return user;
