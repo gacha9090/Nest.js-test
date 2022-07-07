@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { response } from 'express';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
+  // users는 CreateUserDto 객체로 할당 > DB 연결 전에 mockup test용 array
   public users: CreateUserDto[] = [];
 
   create(userData: CreateUserDto): CreateUserDto {
@@ -21,7 +23,9 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`user id ${id} not found`);
     }
-    return Object.assign(user);
+    else{
+      return user;
+    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
